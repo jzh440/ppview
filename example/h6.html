@@ -1,0 +1,257 @@
+﻿<html lang="en">
+<head>
+  <title>h5 multi ppvison</title>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+    body {
+      overflow: auto;
+    }
+
+    #map {
+      width: 100%;
+      height: 50%;
+    }
+
+    #ppv {
+      width: 100%;
+      height: 50%;
+    }
+
+    .ppv_toolbar {
+      position: absolute;
+      margin: 10;
+    }
+
+    .ppv_button {
+      height: 32;
+      background-color: none;
+    }
+
+    .ppv_button:hover {
+      background-color: lightgray;
+    }
+
+  </style>
+</head>
+<body onload="load();">
+<div id="map"></div>
+<div id="ppv">
+  <div class="ppv_toolbar">
+    <img class="ppv_button" src="public/icon/查询坐标.png" title="查询坐标" onmousedown="ppv.setTool(Tool.measurePoint)"></img>
+    <img class="ppv_button" src="public/icon/测量长度.png" title="测量长度" onmousedown="ppv.setTool(Tool.measureLength)"></img>
+    <img class="ppv_button" src="public/icon/测量面积.png" title="测量面积" onmousedown="ppv.setTool(Tool.measureArea)"></img>
+    <img class="ppv_button" src="public/icon/测量垂距.png" title="测量垂距"></img>
+    <img class="ppv_button" src="public/icon/测量立面.png" title="测量立面"></img>
+    <img class="ppv_button" src="public/icon/测量角度.png" title="测量角度"></img>
+    <img class="ppv_button" src="public/icon/测量坡度.png" title="测量坡度"></img>
+    <img class="ppv_button" src="public/icon/创建点.png" title="创建点"></img>
+    <img class="ppv_button" src="public/icon/创建线.png" title="创建线"></img>
+    <img class="ppv_button" src="public/icon/创建面.png" title="创建面"></img>
+    <img class="ppv_button" src="public/icon/选择对象.png" title="选择对象"></img>
+    <img class="ppv_button" src="public/icon/删除选中对象.png" title="删除选中对象"></img>
+    <img class="ppv_button" src="public/icon/LRS.png" title="线性参考系"></img>
+  </div>
+</div>
+
+<link rel="stylesheet" href="public/scripts/leaflet-1.1/leaflet.css"/>
+<script type="text/javascript" src="public/scripts/leaflet-1.1/leaflet.js"></script>
+<script type="text/javascript" src="public/scripts/leaflet-1.1/leaflet.ChineseTmsProviders.js"></script>
+<script type="text/javascript" src="public/scripts/leaflet-1.1/leaflet.orientedmarker.js"></script>
+<script type="text/javascript" src="public/scripts/jquery-1.12.3.min.js"></script>
+
+<script type="text/javascript" src="../dist/js/ppv.min.js"></script>
+
+<script>
+  function load() {
+    ppv.locate(3, 115.874498, 26.41398, 0);
+  }
+  //var ppv = new PPV(document.getElementById( 'ppv' ));
+  debugger
+  var ppv = new PPV("ppv");
+
+
+  // 事件响应
+  function onPosition(event) {
+    var lon = event.lon;
+    var lat = event.lat;
+    var xx = 0;
+
+    //定位地图
+//    if (typeof(map) != "undefined") {
+//      g_coord = L.latLng(lat, lon);
+//      map.panTo(g_coord);
+//      eyeMarker.setLatLng(g_coord);
+//    }
+  };
+  function onEye(event) {
+    var heading = event.heading;
+    var fovx = event.fovx;
+    //旋转视点
+//    if (typeof(eyeMarker) != "undefined" && typeof(g_coord) != "undefined") {
+//      eyeMarker.setAngle(heading);
+//    }
+  };
+//  ppv.onPosition = onPosition;
+//  ppv.onEye = onEye;
+  ppv.setServer("http://192.168.0.226:8013/PPVServer.asmx");
+
+
+  //ppv.setServer("http://localhost");
+
+
+  //
+  // leaflet
+  //
+//  var map = L.map('map').setView([36.086298475586624, 103.76166343688965], 13);
+//  var currentMarkerLayerGroup = L.layerGroup();
+//
+//  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//    maxZoom: 20,
+//    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+//    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+//    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//    id: 'mapbox.streets'
+//  }).addTo(map);
+
+//  draw_bbox(true);
+//
+//  var myIcon = L.Icon.extend({
+//    options: {
+//      //iconUrl: 'icon/134-visible.png',
+//      zzz: 123,
+//    }
+//  });
+//
+//  var eyeIcon = new myIcon({
+//    //var eyeIcon = L.Icon({
+//    iconUrl: 'icon/eye.png',
+//    //iconRetinaUrl: 'my-icon@2x.png',
+//    iconSize: [64, 64],
+//    iconAnchor: [32, 54]
+//    //popupAnchor: [-3, -76],
+//    //shadowUrl: 'my-icon-shadow.png',
+//    //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+//    //shadowSize: [68, 95],
+//    //shadowAnchor: [22, 94]
+//  });
+//  var frameIcon = L.icon({
+//    iconUrl: 'icon/marker-16.png',
+//    //iconRetinaUrl: 'my-icon@2x.png',
+//    iconSize: [16, 16],
+//    iconAnchor: [8, 8]
+//    //popupAnchor: [-3, -76],
+//    //shadowUrl: 'my-icon-shadow.png',
+//    //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+//    //shadowSize: [68, 95],
+//    //shadowAnchor: [22, 94]
+//  });
+//  //var eyeMarker = L.marker([50.00116083, 8.65103859], {icon: eyeIcon}).addTo(map);
+//  var eyeMarker = L.orientedMarker([50.00116083, 8.65103859], {icon: eyeIcon}).addTo(map);
+//  ;
+
+
+//  var popup = L.popup();
+
+//  function onMapClick(e) {
+//    /*
+//     */
+//    var lon = e.latlng.lng;
+//    var lat = e.latlng.lat;
+//    ppv.locate(3, lon, lat, 0);
+//
+//    popup
+//      .setLatLng(e.latlng)
+//      .setContent("You clicked the map at " + e.latlng.toString())
+//      .openOn(map);
+//  }
+
+//  map.on('click', onMapClick);
+//  function draw_bbox(create) {
+//    return;//他的任务已经完成，不再需要
+//
+//    var bound = map.getBounds();
+//    var cen = bound.getCenter();
+//    var min = bound.getSouthWest();
+//    var max = bound.getNorthEast();
+//    var w = max.lng - min.lng;
+//    var h = max.lat - min.lat;
+//    var zoom = map.getZoom();
+//    var factor = 0.25;
+//    /*
+//     var x1 = cen.lng-w*factor;
+//     var y1 = cen.lat-h*factor;
+//     var x2 = cen.lng+w*factor;
+//     var y2 = cen.lat+h*factor;
+//     */
+//    var x1 = bound.getWest() + w * factor;
+//    var y1 = bound.getSouth() + h * factor;
+//    var x2 = bound.getEast() - w * factor;
+//    var y2 = bound.getNorth() - h * factor;
+//    if (create) {
+//      polygon = L.polygon([
+//        [y1, x1],
+//        [y2, x1],
+//        [y2, x2],
+//        [y1, x2]
+//      ]).addTo(map);//.bindPopup("I am a polygon.");
+//    } else {
+//      polygon.setLatLngs([
+//        [y1, x1],
+//        [y2, x1],
+//        [y2, x2],
+//        [y1, x2]
+//      ]);
+//    }
+//
+//  }
+
+
+//  map.on("moveend", function (obj) {
+//    draw_bbox(false);
+//
+//    var bound = map.getBounds();
+//    var zoom = map.getZoom();
+//    var x1 = bound.getWest();
+//    var y1 = bound.getSouth();
+//    var x2 = bound.getEast();
+//    var y2 = bound.getNorth();
+//    /*
+//     */
+//    $.get("ppv/php/redraw.php", {x1: x1, y1: y1, x2: x2, y2: y2, zoom: zoom}, function (ret) {
+//      plotResult(ret);
+//    });
+//
+//  });
+
+//  var myMarker = L.Marker.extend({
+//    id: -1,
+//  });
+
+
+//  function plotResult(result) {
+//    if (result == "")
+//      return;
+//
+//    var res_v = $.parseJSON(result);
+//    currentMarkerLayerGroup.clearLayers();
+//    currentMarkerLayerGroup = L.layerGroup();
+//    for (var i = 0; i < res_v.length; i++) {
+//      var item = res_v[i];
+//      var marker = new myMarker([item.lat, item.lon], {icon: frameIcon});
+//      marker.id = item.id;
+//      currentMarkerLayerGroup.addLayer(marker);
+//      marker.on("click", function (e) {
+//        ppv.locateByID(3, this.id);
+//
+//      });
+//    }
+//
+//    currentMarkerLayerGroup.addTo(map);
+//  }
+
+</script>
+
+</body>
+</html>
