@@ -1361,6 +1361,25 @@ var Feature = function (_mix) {
     }
 
     /**
+     * 设置点的空间信息
+     * @param point
+     * @param geometry
+     */
+
+  }, {
+    key: 'setPointGeometry',
+    value: function setPointGeometry(point, geometry) {
+      if (point && geometry && point instanceof _constants.ol.Feature) {
+        var _geometry = this._getGeometryFromPoint({
+          geometry: geometry
+        });
+        point.setGeometry(_geometry);
+      } else {
+        console.info('传入数据有误！');
+      }
+    }
+
+    /**
      * 添加线要素
      * @param line
      * @param params

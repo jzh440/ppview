@@ -68,15 +68,18 @@
 </div>
 <script src="./public/scripts/jquery/jquery.min.js"></script>
 <script src="./public/scripts/Bootstrap/js/bootstrap.min.js"></script>
-<script src="./public/scripts/HMap/HMap.min.js"></script>
+<script src="./public/scripts/axios/axios.min.js"></script>
+<script src="./public/scripts/HMap/HMap.js"></script>
 <script src="./public/scripts/PPV/js/ppv.min.js"></script>
 <script src="./mapConfig.js"></script>
 <script type="text/javascript">
-  var resolutions = [], ppv;
+  var resolutions = [], ppv, pointFeature;
   for (var i = 0; i < cor.length; i++) {
     resolutions.push(cor[i].resolution);
   }
   var Maps = new HMap.Map();
+
+  // 初始化地图
   Maps.initMap('map', {
     interactions: {
       altShiftDragRotate: true,
@@ -154,11 +157,80 @@
       }
     ]
   });
-  initPano()
-  function initPano() {
+
+  addLine();
+
+  // 添加实景所在路线
+  function addLine () {
+    axios.get('./public/json/line.json')
+      .then(function (response) {
+        var line = response['data']['data']['features'][0];
+        line['attributes']['style'] = {
+          stroke: {
+            strokeWidth: 4,
+            strokeColor: '#0000EE'
+          }
+        }
+        line['attributes']['selectStyle'] = {
+          stroke: {
+            strokeWidth: 6,
+            strokeColor: '#E52929'
+          }
+        }
+        var feat = Maps.addPolyline(line, {
+          layerName: 'line',
+          zoomToExtent: true
+        });
+
+        var point = {
+          attributes: {
+            ID: '02',
+            style: { // 自定义相关样式
+              icon: {
+                imageSrc: './public/icon/jiaodu.png'
+              }
+            }
+          },
+          geometry: [115.874498, 26.41398],
+          geometryType: 'Point'
+        };
+        pointFeature = Maps.addPoint(point, {
+          layerName: 'point'
+        });
+
+        var ptx, pty;
+        ptx = 115.874498;
+        pty = 26.41398;
+        initPano(ptx, pty)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  // 响应位置变化事件
+  function onPosition(event) {
+    var lon = event.lon;
+    var lat = event.lat;
+    var xx = 0;
+    Maps.setPointGeometry(pointFeature, [lon, lat])
+  }
+
+  // 响应角度变化事件
+  function onEye(event) {
+    var heading = event.heading;
+    var fovx = event.fovx;
+    console.log(heading);
+    pointFeature.getStyle().getImage().setRotation(heading)
+  }
+
+  // 初始化实景控件
+  function initPano(ptx, pty) {
     ppv = new PPV("ppv");
     ppv.setServer("http://192.168.0.226:8013/PPVServer.asmx");
-    ppv.locate(3, 115.874498, 26.41398, 0);
+    ppv.locate(3, ptx, pty, 0);
+    ppv.onPosition = onPosition;
+    ppv.onEye = onEye;
   }
 </script>
 </body>
