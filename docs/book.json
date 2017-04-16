@@ -11,14 +11,14 @@
   ],
   "pluginsConfig": {
     "edit-link": {
-      "base": "https://github.com/sakitam-fdd/HMap/tree/master/docs/api",
+      "base": "https://github.com/aurorafe/ppview/tree/master/docs/api",
       "label": "编辑此页"
     },
     "github": {
-      "url": "https://github.com/sakitam-fdd/HMap.git"
+      "url": "https://github.com/aurorafe/ppview.git"
     },
     "github-buttons": {
-      "repo": "sakitam-fdd/HMap",
+      "repo": "aurorafe/ppview",
       "types": [
         "star",
         "watch"

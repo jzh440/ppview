@@ -1,14 +1,14 @@
 {
-  "name": "MapApi",
+  "name": "ppview",
   "version": "1.0.0",
-  "description": "前端GIS接口网站",
+  "description": "实景插件接口",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sakitam-fdd/HMap.git"
+    "url": "https://github.com/aurorafe/ppview.git"
   },
   "keywords": [
     "map"
@@ -16,9 +16,9 @@
   "author": "FDD",
   "license": "Apache",
   "bugs": {
-    "url": "https://github.com/sakitam-fdd/HMap/issues"
+    "url": "https://github.com/aurorafe/ppview/issues"
   },
-  "homepage": "https://github.com/sakitam-fdd/HMap#readme",
+  "homepage": "https://github.com/aurorafe",
   "dependencies": {
     "gitbook": "^3.2.0"
   },
